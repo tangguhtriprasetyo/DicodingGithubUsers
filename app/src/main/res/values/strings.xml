@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Dicoding Github Users</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="subtitle_app">Lihat Daftar User Github Disini!</string>
+    <string name="tv_title_home">Github Users</string>
+    <string name="profile_name">Tangguh Tri Prasetyo</string>
+    <string name="profile_address">Semarang, Indonesia</string>
+    <string name="profile_total_follower">1234</string>
+    <string name="followers">Followers</string>
+    <string name="profile_total_following">4321</string>
+    <string name="followings">Followings</string>
+    <string name="email">Email</string>
+    <string name="profile_email">tangguhtriprasetyo@gmail.com</string>
+    <string name="phone">Phone</string>
+    <string name="profile_phone">+62 821 3827 3695</string>
+    <string name="github">Github</string>
+    <string name="profile_username">tangguhtriprasetyo</string>
+    <string name="profile_title_repo">Repositories</string>
+    <string name="profile_total_repositories">27</string>
+    <string name="back_button">Back</string>
+    <string name="tv_username">Username</string>
+    <string name="user_avatar">Avatar User</string>
+    <string name="tv_name">Nama</string>
+    <string name="tv_location">Lokasi User</string>
+    <string name="tv_company">Company</string>
+</resources>

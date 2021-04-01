@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.ProfileFragment">
+
+    <RelativeLayout
+        android:id="@+id/relative_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_profile"
+        android:paddingBottom="20dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgUser"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tangguh" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/TitleContent"
+            android:layout_below="@id/imgUser"
+            android:layout_marginTop="16dp"
+            android:text="@string/profile_name"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="32sp" />
+
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_name"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/roboto"
+            android:text="@string/profile_address"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_subHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relative_header"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            style="@style/RelativeProfile"
+            android:background="@color/teal_200">
+
+            <LinearLayout style="@style/LinearProfile">
+
+                <TextView
+                    style="@style/Title"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/profile_total_follower"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    style="@style/ContentProfile"
+                    android:text="@string/followers" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/RelativeProfile"
+            android:background="@color/blue_light">
+
+            <LinearLayout style="@style/LinearProfile">
+
+                <TextView
+                    style="@style/Title"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/profile_total_following"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    style="@style/ContentProfile"
+                    android:text="@string/followings" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linear_subHeader">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="32dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TitleContent"
+                    android:text="@string/email"
+                    android:textColor="@color/colorSubtitle" />
+
+                <TextView
+                    style="@style/TextContent"
+                    android:text="@string/profile_email"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/gray_light" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearDetailProfile">
+
+                <TextView
+                    style="@style/TitleContent"
+                    android:text="@string/phone"
+                    android:textColor="@color/colorSubtitle" />
+
+                <TextView
+                    style="@style/TextContent"
+                    android:text="@string/profile_phone"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/gray_light" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearDetailProfile">
+
+                <TextView
+                    style="@style/TitleContent"
+                    android:text="@string/github"
+                    android:textColor="@color/colorSubtitle" />
+
+                <TextView
+                    style="@style/TextContent"
+                    android:text="@string/profile_username"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/gray_light" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearDetailProfile">
+
+                <TextView
+                    style="@style/TitleContent"
+                    android:text="@string/profile_title_repo"
+                    android:textColor="@color/colorSubtitle" />
+
+                <TextView
+                    style="@style/TextContent"
+                    android:text="@string/profile_total_repositories"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/gray_light" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
