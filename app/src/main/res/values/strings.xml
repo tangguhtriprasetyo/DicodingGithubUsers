@@ -2,7 +2,7 @@
     <string name="app_name">Dicoding Github Users</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="home">Home</string>
-    <string name="profile">Profile</string>
+    <string name="about">About</string>
     <string name="subtitle_app">Lihat Daftar User Github Disini!</string>
     <string name="tv_title_home">Github Users</string>
     <string name="profile_name">Tangguh Tri Prasetyo</string>
