@@ -1,7 +1,7 @@
 package com.example.dicodinggithubusers.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.dicodinggithubusers.R
 import com.example.dicodinggithubusers.databinding.ActivityMainBinding
@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         setCurrentFragment(homeFragment)
 
+        //Pilih Fragment Berdasarkan Menu yang Dipilih
         binding.bottomNavigationBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> setCurrentFragment(homeFragment)

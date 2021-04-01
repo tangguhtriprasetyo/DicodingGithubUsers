@@ -1,11 +1,9 @@
 package com.example.dicodinggithubusers.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.example.dicodinggithubusers.R
 import com.example.dicodinggithubusers.databinding.ActivityDetailBinding
-import com.example.dicodinggithubusers.databinding.ActivityMainBinding
 import com.example.dicodinggithubusers.model.Users
 
 class DetailActivity : AppCompatActivity() {
@@ -27,6 +25,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    // Ambil data dari Parcelable dan Assign ke Layout
     private fun initView() {
         val user = intent.getParcelableExtra<Users>(EXTRA_USER) as Users
         binding.tvTitleDetail.text = user.username

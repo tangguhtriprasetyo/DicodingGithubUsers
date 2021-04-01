@@ -17,6 +17,7 @@ import kotlin.collections.ArrayList
 class RvUsersAdapter(private val listUsers: ArrayList<Users>) : RecyclerView.Adapter<RvUsersAdapter.ListViewHolder>(), Filterable {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
+    //List untuk Search
     var filterList = ArrayList<Users>()
 
     init {
@@ -35,10 +36,10 @@ class RvUsersAdapter(private val listUsers: ArrayList<Users>) : RecyclerView.Ada
     }
 
     override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int): ListViewHolder {
+            parent: ViewGroup,
+            viewType: Int): ListViewHolder {
         val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_rv_user, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.item_rv_user, parent, false)
         return ListViewHolder(view)
     }
 
@@ -46,9 +47,9 @@ class RvUsersAdapter(private val listUsers: ArrayList<Users>) : RecyclerView.Ada
         val users = filterList[position]
 
         Glide.with(holder.itemView.context)
-            .load(users.avatar)
-            .apply(RequestOptions().override(64, 64))
-            .into(holder.userAvatar)
+                .load(users.avatar)
+                .apply(RequestOptions().override(64, 64))
+                .into(holder.userAvatar)
 
         holder.tvUserName.text = users.username
         holder.tvUserLocation.text = users.location
@@ -64,6 +65,7 @@ class RvUsersAdapter(private val listUsers: ArrayList<Users>) : RecyclerView.Ada
         fun onItemClicked(data: Users)
     }
 
+    //Filter Data dari Search
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {

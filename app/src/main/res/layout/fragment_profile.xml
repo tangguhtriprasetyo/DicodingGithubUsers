@@ -135,8 +135,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/LinearDetailProfile">
+            <LinearLayout style="@style/LinearDetailProfile">
 
                 <TextView
                     style="@style/TitleContent"
@@ -157,8 +156,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/LinearDetailProfile">
+            <LinearLayout style="@style/LinearDetailProfile">
 
                 <TextView
                     style="@style/TitleContent"
@@ -179,8 +177,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/LinearDetailProfile">
+            <LinearLayout style="@style/LinearDetailProfile">
 
                 <TextView
                     style="@style/TitleContent"
