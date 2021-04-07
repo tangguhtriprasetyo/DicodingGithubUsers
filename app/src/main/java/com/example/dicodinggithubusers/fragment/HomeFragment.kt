@@ -14,6 +14,7 @@ import com.example.dicodinggithubusers.R
 import com.example.dicodinggithubusers.activity.DetailActivity
 import com.example.dicodinggithubusers.adapter.RvUsersAdapter
 import com.example.dicodinggithubusers.databinding.FragmentHomeBinding
+import com.example.dicodinggithubusers.model.SearchResponse
 import com.example.dicodinggithubusers.model.Users
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
@@ -44,7 +45,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getUserListData()
+        getUserListData(null)
 
     }
 
@@ -63,7 +64,11 @@ class HomeFragment : Fragment() {
         //Callback untuk SearchView
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
+                if (query != null) {
+                    list.clear()
+                    getUserListData(query)
+                }
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -83,10 +88,16 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun getUserListData() {
+    private fun getUserListData(query: String?) {
         binding.progressBar.visibility = View.VISIBLE
 
-        val url = "https://api.github.com/users"
+        val url: String = if (query != null) {
+            "https://api.github.com/search/users?q=$query"
+        } else {
+            "https://api.github.com/users"
+        }
+        Log.d("URL Endpoint: ", url)
+
         client.addHeader("User-Agent", "request")
         client.addHeader("Authorization", getString(R.string.token_api))
         client.get(url, object : AsyncHttpResponseHandler() {
@@ -105,18 +116,28 @@ class HomeFragment : Fragment() {
                         .addLast(KotlinJsonAdapterFactory())
                         .build()
 
-                    val listType = Types.newParameterizedType(List::class.java, Users::class.java)
-                    val jsonAdapter: JsonAdapter<List<Users>> = moshi.adapter(listType)
-                    val response = jsonAdapter.fromJson(result)
-                    if (response != null) {
-                        for (i in response.indices) {
-                            val userData = response[i]
-                            val urlUsers = userData.url
-                            getUserDetailData(urlUsers.toString())
+                    if (query != null) {
+                        val jsonAdapter = moshi.adapter(SearchResponse::class.java)
+                        val response = jsonAdapter.fromJson(result)
+                        response?.let {
+                            for (i in it.items.indices) {
+                                val userData = it.items[i]
+                                val urlUsers = userData.url
+                                getUserDetailData(urlUsers.toString())
+                            }
                         }
                     } else {
-                        binding.progressBar.visibility = View.GONE
-                        Toast.makeText(activity, "Data Kosong", Toast.LENGTH_LONG).show()
+                        val listType =
+                            Types.newParameterizedType(List::class.java, Users::class.java)
+                        val jsonAdapter: JsonAdapter<List<Users>> = moshi.adapter(listType)
+                        val response = jsonAdapter.fromJson(result)
+                        response?.let {
+                            for (i in response.indices) {
+                                val userData = response[i]
+                                val urlUsers = userData.url
+                                getUserDetailData(urlUsers.toString())
+                            }
+                        }
                     }
 
                 } catch (e: Exception) {
@@ -133,7 +154,7 @@ class HomeFragment : Fragment() {
             ) {
                 Log.d("onFailureGetUser", error?.message.toString())
                 binding.progressBar.visibility = View.GONE
-                Toast.makeText(activity, error?.message, Toast.LENGTH_LONG)
+                Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -192,7 +213,7 @@ class HomeFragment : Fragment() {
             ) {
                 Log.d("onFailureGetDetail", error?.message.toString())
                 binding.progressBar.visibility = View.GONE
-                Toast.makeText(activity, error?.message, Toast.LENGTH_LONG)
+                Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
             }
         })
     }

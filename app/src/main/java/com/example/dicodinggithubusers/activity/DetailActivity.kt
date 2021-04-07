@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.dicodinggithubusers.databinding.ActivityDetailBinding
+import com.example.dicodinggithubusers.loadImage
 import com.example.dicodinggithubusers.model.Users
 
 class DetailActivity : AppCompatActivity() {
@@ -38,7 +39,10 @@ class DetailActivity : AppCompatActivity() {
         binding.tvDetailRepository.text = user.repository
 
         Glide.with(binding.imgDetailAvatar)
-                .load(user.avatar)
-                .into(binding.imgDetailAvatar)
+            .load(user.avatar)
+            .into(binding.imgDetailAvatar)
+
+        binding.imgDetailAvatar.loadImage(user.avatar)
+
     }
 }

@@ -28,3 +28,8 @@ data class Users(
 
         var url: String? = null
 ) : Parcelable
+
+data class SearchResponse(
+        val total_count: Int,
+        val items: List<Users>
+)
