@@ -75,7 +75,9 @@ class RvUsersAdapter(private val listUsers: ArrayList<Users>) : RecyclerView.Ada
                 } else {
                     val resultList = ArrayList<Users>()
                     for (row in listUsers) {
-                        if (row.name.toLowerCase(Locale.ROOT).contains(charSearch.toLowerCase(Locale.ROOT))) {
+                        if (row.name?.toLowerCase(Locale.ROOT)
+                                ?.contains(charSearch.toLowerCase(Locale.ROOT)) == true
+                        ) {
                             resultList.add(row)
                         }
                     }
