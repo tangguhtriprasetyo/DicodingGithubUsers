@@ -28,7 +28,6 @@
             android:layout_below="@id/imgUser"
             android:layout_marginTop="16dp"
             android:text="@string/profile_name"
-            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="32sp" />
 
@@ -96,18 +95,12 @@
 
     </LinearLayout>
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/linear_subHeader">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_below="@id/linear_subHeader"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:orientation="vertical">
 
@@ -198,5 +191,4 @@
 
             </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
 </RelativeLayout>

@@ -10,7 +10,7 @@
     <string name="profile_total_follower">1234</string>
     <string name="followers">Followers</string>
     <string name="profile_total_following">4321</string>
-    <string name="followings">Followings</string>
+    <string name="followings">Following</string>
     <string name="email">Email</string>
     <string name="profile_email">tangguhtriprasetyo@gmail.com</string>
     <string name="phone">Phone</string>
@@ -27,4 +27,7 @@
     <string name="tv_company">Company</string>
     <string name="ic_apps">Ic Apps</string>
     <string name="token_api">token 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</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="content_tab_text">This is Tab %1$d</string>
 </resources>

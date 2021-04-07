@@ -16,6 +16,7 @@
     <TextView
         android:id="@+id/tv_item_username"
         style="@style/TitleContent"
+        android:layout_width="wrap_content"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/img_item_user_avatar"
         app:layout_constraintStart_toEndOf="@+id/img_item_user_avatar"
