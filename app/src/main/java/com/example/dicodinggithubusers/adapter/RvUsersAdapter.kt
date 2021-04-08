@@ -14,7 +14,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class RvUsersAdapter(private val listUsers: ArrayList<Users>) :
-    RecyclerView.Adapter<RvUsersAdapter.ListViewHolder>(), Filterable {
+        RecyclerView.Adapter<RvUsersAdapter.ListViewHolder>(), Filterable {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
     //List untuk Search
@@ -30,27 +30,24 @@ class RvUsersAdapter(private val listUsers: ArrayList<Users>) :
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemRvUserBinding.bind(itemView)
-        var userAvatar = binding.imgItemUserAvatar
-        var tvUserName = binding.tvItemUsername
-        var tvUserLocation = binding.tvItemLocation
+        fun bind(users: Users) {
+            binding.imgItemUserAvatar.loadImage(users.avatar)
+            binding.tvItemUsername.text = users.username
+            binding.tvItemLocation.text = users.location
+        }
     }
 
     override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
+            parent: ViewGroup,
+            viewType: Int
     ): ListViewHolder {
         val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_rv_user, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.item_rv_user, parent, false)
         return ListViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val users = filterList[position]
-
-        holder.userAvatar.loadImage(users.avatar)
-        holder.tvUserName.text = users.username
-        holder.tvUserLocation.text = users.location
-
+        holder.bind(filterList[position])
         holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(filterList[holder.adapterPosition]) }
     }
 
@@ -73,7 +70,7 @@ class RvUsersAdapter(private val listUsers: ArrayList<Users>) :
                     val resultList = ArrayList<Users>()
                     for (row in listUsers) {
                         if (row.name?.toLowerCase(Locale.ROOT)
-                                ?.contains(charSearch.toLowerCase(Locale.ROOT)) == true
+                                        ?.contains(charSearch.toLowerCase(Locale.ROOT)) == true
                         ) {
                             resultList.add(row)
                         }

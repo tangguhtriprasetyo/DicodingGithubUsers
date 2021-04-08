@@ -43,7 +43,7 @@
                 android:focusable="false"
                 app:iconifiedByDefault="false"
                 app:queryBackground="@null"
-                app:queryHint="Cari User..." />
+                app:queryHint="@string/search_hint" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

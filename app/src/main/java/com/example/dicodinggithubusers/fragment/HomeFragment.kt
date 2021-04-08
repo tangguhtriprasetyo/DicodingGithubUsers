@@ -26,6 +26,10 @@ import cz.msebera.android.httpclient.Header
 
 class HomeFragment : Fragment() {
 
+    companion object {
+        private const val STATE_LIST = "state_list"
+    }
+
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private var list: ArrayList<Users> = arrayListOf()
@@ -33,8 +37,8 @@ class HomeFragment : Fragment() {
     private val client = AsyncHttpClient()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -45,8 +49,20 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getUserListData(null)
+        if (savedInstanceState == null) {
+            getUserListData(null)
+        } else {
+            val stateList = savedInstanceState.getParcelableArrayList<Users>(STATE_LIST)
+            list.addAll(stateList!!)
+            Log.d("outState: ", stateList.toString())
+            showRecyclerData()
+        }
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(STATE_LIST, list)
     }
 
     private fun showLoading(state: Boolean) {
@@ -61,6 +77,7 @@ class HomeFragment : Fragment() {
     private fun showRecyclerData() {
         binding.rvUsers.layoutManager = LinearLayoutManager(activity)
         val rvUsersAdapter = RvUsersAdapter(list)
+        Log.d("LIST: ", list.toString())
         binding.rvUsers.adapter = rvUsersAdapter
 
         rvUsersAdapter.setOnItemClickCallback(object : RvUsersAdapter.OnItemClickCallback {
@@ -89,7 +106,7 @@ class HomeFragment : Fragment() {
     //Fungsi Pilih User dan Pindah Activity dengan Parcelable
     private fun showSelectedUser(data: Users) {
 
-        Toast.makeText(activity, "Kamu memilih ${data.username}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "${data.username}", Toast.LENGTH_SHORT).show()
         val intentDetail = Intent(activity, DetailActivity::class.java)
         intentDetail.putExtra(DetailActivity.EXTRA_USER, data)
         startActivity(intentDetail)

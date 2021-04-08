@@ -87,6 +87,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -98,15 +99,15 @@
 
                 <TextView
                     style="@style/TitleContent"
-                    android:textColor="@color/white"
-                    android:text="@string/tv_company" />
+                    android:text="@string/tv_company"
+                    android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/tv_detail_company"
                     style="@style/ContentDetail"
-                    android:textColor="@color/white"
                     android:layout_marginBottom="4dp"
-                    android:text="@string/tv_company" />
+                    android:text="@string/tv_company"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
             <LinearLayout
@@ -118,15 +119,15 @@
 
                 <TextView
                     style="@style/TitleContent"
-                    android:textColor="@color/white"
-                    android:text="@string/tv_location" />
+                    android:text="@string/tv_location"
+                    android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/tv_detail_location"
                     style="@style/ContentDetail"
-                    android:textColor="@color/white"
                     android:layout_marginBottom="4dp"
-                    android:text="@string/tv_location" />
+                    android:text="@string/tv_location"
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 
@@ -139,16 +140,16 @@
 
                 <TextView
                     style="@style/TitleContent"
-                    android:textColor="@color/white"
-                    android:text="@string/profile_title_repo" />
+                    android:text="@string/profile_title_repo"
+                    android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/tv_detail_repository"
                     style="@style/ContentDetail"
-                    android:textColor="@color/white"
                     android:layout_marginBottom="4dp"
                     android:ellipsize="end"
-                    android:text="@string/profile_total_repositories" />
+                    android:text="@string/profile_total_repositories"
+                    android:textColor="@color/white" />
 
             </LinearLayout>
         </LinearLayout>
@@ -164,7 +165,7 @@
             android:id="@+id/tab_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextColor="@color/blue_light"></com.google.android.material.tabs.TabLayout>
+            app:tabTextColor="@color/blue_light" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
@@ -172,60 +173,4 @@
             android:layout_height="match_parent" />
 
     </LinearLayout>
-
-    <!--    <LinearLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_below="@id/linear_detail_header"-->
-    <!--        android:layout_centerInParent="true"-->
-    <!--        android:layout_marginStart="32dp"-->
-    <!--        android:layout_marginTop="32dp"-->
-    <!--        android:layout_marginEnd="32dp"-->
-    <!--        android:orientation="vertical">-->
-
-
-    <!--        <LinearLayout style="@style/LinearDetailProfile">-->
-
-    <!--            <TextView-->
-    <!--                style="@style/TitleContent"-->
-    <!--                android:text="@string/followers"-->
-    <!--                android:textColor="@color/colorSubtitle" />-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/tv_detail_follower"-->
-    <!--                style="@style/TextContent"-->
-    <!--                android:text="@string/profile_total_follower"-->
-    <!--                android:textColor="@color/gray_dark"-->
-    <!--                android:textSize="16sp" />-->
-
-    <!--            <View-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="1dp"-->
-    <!--                android:layout_marginTop="16dp"-->
-    <!--                android:background="@color/gray_light" />-->
-
-    <!--        </LinearLayout>-->
-
-    <!--        <LinearLayout style="@style/LinearDetailProfile">-->
-
-    <!--            <TextView-->
-    <!--                style="@style/TitleContent"-->
-    <!--                android:text="@string/followings"-->
-    <!--                android:textColor="@color/colorSubtitle" />-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/tv_detail_following"-->
-    <!--                style="@style/TextContent"-->
-    <!--                android:text="@string/profile_total_following"-->
-    <!--                android:textColor="@color/gray_dark"-->
-    <!--                android:textSize="16sp" />-->
-
-    <!--            <View-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="1dp"-->
-    <!--                android:layout_marginTop="16dp"-->
-    <!--                android:background="@color/gray_light" />-->
-
-    <!--        </LinearLayout>-->
-    <!--    </LinearLayout>-->
 </RelativeLayout>

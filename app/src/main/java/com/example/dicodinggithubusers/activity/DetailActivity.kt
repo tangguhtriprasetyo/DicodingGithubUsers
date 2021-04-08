@@ -60,8 +60,8 @@ class DetailActivity : AppCompatActivity() {
         binding.tvDetailRepository.text = user.repository
 
         Glide.with(binding.imgDetailAvatar)
-            .load(user.avatar)
-            .into(binding.imgDetailAvatar)
+                .load(user.avatar)
+                .into(binding.imgDetailAvatar)
 
         binding.imgDetailAvatar.loadImage(user.avatar)
 

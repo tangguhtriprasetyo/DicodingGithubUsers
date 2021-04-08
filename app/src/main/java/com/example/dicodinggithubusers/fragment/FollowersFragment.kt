@@ -45,7 +45,7 @@ class FollowersFragment : Fragment() {
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentFollowersBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -55,13 +55,13 @@ class FollowersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val dataUser = activity?.intent?.getParcelableExtra<Users>(DetailActivity.EXTRA_USER) as Users
         val userName = dataUser.username
         val urlFollowers = "https://api.github.com/users/$userName/followers"
         val urlFollowing = "https://api.github.com/users/$userName/following"
 
-        val index = arguments?.getInt(ARG_SECTION_NUMBER, 0)
-        when (index) {
+        when (arguments?.getInt(ARG_SECTION_NUMBER, 0)) {
             1 -> getUserListData(urlFollowers)
             2 -> getUserListData(urlFollowing)
         }
@@ -196,7 +196,7 @@ class FollowersFragment : Fragment() {
 
     private fun showSelectedUser(data: Users) {
 
-        Toast.makeText(activity, "Kamu memilih ${data.username}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "${data.username}", Toast.LENGTH_SHORT).show()
         val intentDetail = Intent(activity, DetailActivity::class.java)
         intentDetail.putExtra(DetailActivity.EXTRA_USER, data)
         startActivity(intentDetail)

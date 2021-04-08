@@ -22,6 +22,16 @@
             android:scaleType="centerCrop"
             android:src="@drawable/tangguh" />
 
+        <ImageView
+            android:id="@+id/ic_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/setting_language"
+            android:src="@drawable/ic_baseline_settings_24" />
+
         <TextView
             android:id="@+id/tv_name"
             style="@style/TitleContent"
@@ -95,104 +105,104 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_subHeader"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/linear_subHeader"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                style="@style/TitleContent"
+                android:text="@string/email"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorSubtitle" />
+
+            <TextView
+                style="@style/TextContent"
+                android:text="@string/profile_email"
+                android:textColor="@color/gray_dark"
+                android:textSize="16sp" />
+
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/gray_light" />
 
-                <TextView
-                    style="@style/TitleContent"
-                    android:textAlignment="textStart"
-                    android:text="@string/email"
-                    android:textColor="@color/colorSubtitle" />
-
-                <TextView
-                    style="@style/TextContent"
-                    android:text="@string/profile_email"
-                    android:textColor="@color/gray_dark"
-                    android:textSize="16sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/gray_light" />
-
-            </LinearLayout>
-
-            <LinearLayout style="@style/LinearDetailProfile">
-
-                <TextView
-                    style="@style/TitleContent"
-                    android:textAlignment="textStart"
-                    android:text="@string/phone"
-                    android:textColor="@color/colorSubtitle" />
-
-                <TextView
-                    style="@style/TextContent"
-                    android:text="@string/profile_phone"
-                    android:textColor="@color/gray_dark"
-                    android:textSize="16sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/gray_light" />
-
-            </LinearLayout>
-
-            <LinearLayout style="@style/LinearDetailProfile">
-
-                <TextView
-                    style="@style/TitleContent"
-                    android:textAlignment="textStart"
-                    android:text="@string/github"
-                    android:textColor="@color/colorSubtitle" />
-
-                <TextView
-                    style="@style/TextContent"
-                    android:text="@string/profile_username"
-                    android:textColor="@color/gray_dark"
-                    android:textSize="16sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/gray_light" />
-
-            </LinearLayout>
-
-            <LinearLayout style="@style/LinearDetailProfile">
-
-                <TextView
-                    style="@style/TitleContent"
-                    android:textAlignment="textStart"
-                    android:text="@string/profile_title_repo"
-                    android:textColor="@color/colorSubtitle" />
-
-                <TextView
-                    style="@style/TextContent"
-                    android:text="@string/profile_total_repositories"
-                    android:textColor="@color/gray_dark"
-                    android:textSize="16sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/gray_light" />
-
-            </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout style="@style/LinearDetailProfile">
+
+            <TextView
+                style="@style/TitleContent"
+                android:text="@string/phone"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorSubtitle" />
+
+            <TextView
+                style="@style/TextContent"
+                android:text="@string/profile_phone"
+                android:textColor="@color/gray_dark"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/gray_light" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearDetailProfile">
+
+            <TextView
+                style="@style/TitleContent"
+                android:text="@string/github"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorSubtitle" />
+
+            <TextView
+                style="@style/TextContent"
+                android:text="@string/profile_username"
+                android:textColor="@color/gray_dark"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/gray_light" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearDetailProfile">
+
+            <TextView
+                style="@style/TitleContent"
+                android:text="@string/profile_title_repo"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorSubtitle" />
+
+            <TextView
+                style="@style/TextContent"
+                android:text="@string/profile_total_repositories"
+                android:textColor="@color/gray_dark"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/gray_light" />
+
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
