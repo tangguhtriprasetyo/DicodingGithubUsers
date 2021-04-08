@@ -45,10 +45,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/card_view_detail"
-        android:background="@color/blue_light"
+        android:background="@drawable/bg_profile"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="32dp">
+        android:paddingStart="32dp"
+        android:paddingTop="32dp"
+        android:paddingEnd="32dp"
+        android:paddingBottom="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_detail_avatar"
@@ -95,11 +98,13 @@
 
                 <TextView
                     style="@style/TitleContent"
+                    android:textColor="@color/white"
                     android:text="@string/tv_company" />
 
                 <TextView
                     android:id="@+id/tv_detail_company"
                     style="@style/ContentDetail"
+                    android:textColor="@color/white"
                     android:layout_marginBottom="4dp"
                     android:text="@string/tv_company" />
             </LinearLayout>
@@ -113,11 +118,13 @@
 
                 <TextView
                     style="@style/TitleContent"
+                    android:textColor="@color/white"
                     android:text="@string/tv_location" />
 
                 <TextView
                     android:id="@+id/tv_detail_location"
                     style="@style/ContentDetail"
+                    android:textColor="@color/white"
                     android:layout_marginBottom="4dp"
                     android:text="@string/tv_location" />
 
@@ -132,11 +139,13 @@
 
                 <TextView
                     style="@style/TitleContent"
+                    android:textColor="@color/white"
                     android:text="@string/profile_title_repo" />
 
                 <TextView
                     android:id="@+id/tv_detail_repository"
                     style="@style/ContentDetail"
+                    android:textColor="@color/white"
                     android:layout_marginBottom="4dp"
                     android:ellipsize="end"
                     android:text="@string/profile_total_repositories" />
@@ -155,8 +164,7 @@
             android:id="@+id/tab_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue_light"
-            app:tabTextColor="@color/white" />
+            app:tabTextColor="@color/blue_light"></com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"

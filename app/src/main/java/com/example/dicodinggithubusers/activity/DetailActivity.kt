@@ -1,7 +1,6 @@
 package com.example.dicodinggithubusers.activity
 
 import android.os.Bundle
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -17,12 +16,6 @@ class DetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_USER = "extra_user"
-
-        @StringRes
-        private val TAB_TITLES = intArrayOf(
-            R.string.followers,
-            R.string.followings
-        )
     }
 
     private lateinit var binding: ActivityDetailBinding
@@ -40,18 +33,24 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun initTabLayout() {
+
+        val user = intent.getParcelableExtra<Users>(EXTRA_USER) as Users
         val sectionPageAdapter = SectionPageAdapter(this)
         val viewPager: ViewPager2 = binding.viewPager
         viewPager.adapter = sectionPageAdapter
         val tabs: TabLayout = binding.tabDetail
 
         TabLayoutMediator(tabs, viewPager) { tab, position ->
-            tab.text = resources.getString(TAB_TITLES[position])
+            when (position) {
+                0 -> tab.text = getString(R.string.tabFollowers, user.follower)
+                1 -> tab.text = getString(R.string.tabFollowing, user.following)
+            }
         }.attach()
     }
 
     // Ambil data dari Parcelable dan Assign ke Layout
     private fun initView() {
+
         val user = intent.getParcelableExtra<Users>(EXTRA_USER) as Users
         binding.tvTitleDetail.text = user.username
         binding.tvDetailName.text = user.name

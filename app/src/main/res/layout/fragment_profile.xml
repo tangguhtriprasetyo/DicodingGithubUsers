@@ -111,6 +111,7 @@
 
                 <TextView
                     style="@style/TitleContent"
+                    android:textAlignment="textStart"
                     android:text="@string/email"
                     android:textColor="@color/colorSubtitle" />
 
@@ -132,6 +133,7 @@
 
                 <TextView
                     style="@style/TitleContent"
+                    android:textAlignment="textStart"
                     android:text="@string/phone"
                     android:textColor="@color/colorSubtitle" />
 
@@ -153,6 +155,7 @@
 
                 <TextView
                     style="@style/TitleContent"
+                    android:textAlignment="textStart"
                     android:text="@string/github"
                     android:textColor="@color/colorSubtitle" />
 
@@ -174,6 +177,7 @@
 
                 <TextView
                     style="@style/TitleContent"
+                    android:textAlignment="textStart"
                     android:text="@string/profile_title_repo"
                     android:textColor="@color/colorSubtitle" />
 

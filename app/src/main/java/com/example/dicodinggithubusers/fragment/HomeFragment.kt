@@ -49,6 +49,14 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
+        }
+    }
+
     //Fungsi Menampilkan Data ke RV
     private fun showRecyclerData() {
         binding.rvUsers.layoutManager = LinearLayoutManager(activity)
@@ -89,7 +97,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getUserListData(query: String?) {
-        binding.progressBar.visibility = View.VISIBLE
+        showLoading(true)
 
         val url: String = if (query != null) {
             "https://api.github.com/search/users?q=$query"
@@ -102,19 +110,19 @@ class HomeFragment : Fragment() {
         client.addHeader("Authorization", getString(R.string.token_api))
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
-                statusCode: Int,
-                headers: Array<out Header>?,
-                responseBody: ByteArray?
+                    statusCode: Int,
+                    headers: Array<out Header>?,
+                    responseBody: ByteArray?
             ) {
-                binding.progressBar.visibility = View.GONE
+                showLoading(false)
 
                 val result = String(responseBody!!)
                 Log.d("onSuccessListUser: ", result)
 
                 try {
                     val moshi = Moshi.Builder()
-                        .addLast(KotlinJsonAdapterFactory())
-                        .build()
+                            .addLast(KotlinJsonAdapterFactory())
+                            .build()
 
                     if (query != null) {
                         val jsonAdapter = moshi.adapter(SearchResponse::class.java)
@@ -128,7 +136,7 @@ class HomeFragment : Fragment() {
                         }
                     } else {
                         val listType =
-                            Types.newParameterizedType(List::class.java, Users::class.java)
+                                Types.newParameterizedType(List::class.java, Users::class.java)
                         val jsonAdapter: JsonAdapter<List<Users>> = moshi.adapter(listType)
                         val response = jsonAdapter.fromJson(result)
                         response?.let {
@@ -147,13 +155,13 @@ class HomeFragment : Fragment() {
             }
 
             override fun onFailure(
-                statusCode: Int,
-                headers: Array<out Header>?,
-                responseBody: ByteArray?,
-                error: Throwable?
+                    statusCode: Int,
+                    headers: Array<out Header>?,
+                    responseBody: ByteArray?,
+                    error: Throwable?
             ) {
                 Log.d("onFailureGetUser", error?.message.toString())
-                binding.progressBar.visibility = View.GONE
+                showLoading(false)
                 Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
             }
         })
@@ -165,19 +173,19 @@ class HomeFragment : Fragment() {
         client.addHeader("Authorization", getString(R.string.token_api))
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
-                statusCode: Int,
-                headers: Array<out Header>?,
-                responseBody: ByteArray?
+                    statusCode: Int,
+                    headers: Array<out Header>?,
+                    responseBody: ByteArray?
             ) {
-                binding.progressBar.visibility = View.GONE
+                showLoading(false)
 
                 val result = String(responseBody!!)
                 Log.d("onSuccessDetailUser: ", result)
 
                 try {
                     val moshi = Moshi.Builder()
-                        .addLast(KotlinJsonAdapterFactory())
-                        .build()
+                            .addLast(KotlinJsonAdapterFactory())
+                            .build()
 
                     val jsonAdapter = moshi.adapter(Users::class.java)
                     val response = jsonAdapter.fromJson(result)
@@ -206,13 +214,13 @@ class HomeFragment : Fragment() {
             }
 
             override fun onFailure(
-                statusCode: Int,
-                headers: Array<out Header>?,
-                responseBody: ByteArray?,
-                error: Throwable?
+                    statusCode: Int,
+                    headers: Array<out Header>?,
+                    responseBody: ByteArray?,
+                    error: Throwable?
             ) {
                 Log.d("onFailureGetDetail", error?.message.toString())
-                binding.progressBar.visibility = View.GONE
+                showLoading(false)
                 Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
             }
         })
