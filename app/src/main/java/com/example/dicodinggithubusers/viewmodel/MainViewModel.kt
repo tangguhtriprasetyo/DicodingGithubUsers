@@ -18,6 +18,7 @@ class MainViewModel : ViewModel() {
 
     val listUsers = MutableLiveData<ArrayList<Users>>()
     val listItems = ArrayList<Users>()
+    var errorMessage: String? = null
 
     fun setListUsers(query: String?) {
         listItems.clear()
@@ -26,6 +27,10 @@ class MainViewModel : ViewModel() {
 
     fun getListUsers(): LiveData<ArrayList<Users>> {
         return listUsers
+    }
+
+    fun getMessageError(): String? {
+        return errorMessage
     }
 
     private fun getData(query: String?) {
@@ -38,7 +43,7 @@ class MainViewModel : ViewModel() {
         }
         Log.d("URL Endpoint: ", url)
 
-        client.addHeader("Authorization", "token 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")
+        client.addHeader("Authorization", "token ghp_FGkXehJz9BBDajwSmPZhKIFdN5ay7k1yluP")
         client.addHeader("User-Agent", "request")
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
@@ -81,6 +86,8 @@ class MainViewModel : ViewModel() {
 
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    errorMessage = e.message
+                    listUsers.postValue(null)
                 }
             }
 
@@ -90,7 +97,9 @@ class MainViewModel : ViewModel() {
                     responseBody: ByteArray?,
                     error: Throwable?
             ) {
-                Log.d("onFailureGetUser", error?.message.toString())
+                errorMessage = error?.message
+                Log.d("onFailureGetUser", errorMessage.toString())
+                listUsers.postValue(null)
             }
         })
     }
@@ -133,7 +142,9 @@ class MainViewModel : ViewModel() {
 
 
                 } catch (e: Exception) {
+                    errorMessage = e.message
                     e.printStackTrace()
+                    listUsers.postValue(null)
                 }
             }
 
@@ -143,7 +154,9 @@ class MainViewModel : ViewModel() {
                     responseBody: ByteArray?,
                     error: Throwable?
             ) {
-                Log.d("onFailureGetDetail", error?.message.toString())
+                errorMessage = error?.message
+                Log.d("onFailureGetDetail", errorMessage.toString())
+                listUsers.postValue(null)
             }
         })
     }

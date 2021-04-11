@@ -38,4 +38,5 @@
     <string name="tabFollowing">Following \n%1$s</string>
     <string name="setting_language">Setting Language</string>
     <string name="search_hint">Find User…</string>
+    <string name="tv_try_again">Try Again</string>
 </resources>

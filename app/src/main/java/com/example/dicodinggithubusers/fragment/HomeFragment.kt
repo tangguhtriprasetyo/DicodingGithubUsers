@@ -2,6 +2,7 @@ package com.example.dicodinggithubusers.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,9 +22,15 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private var queryState: String? = null
+    private var state: Boolean = false
 
     private lateinit var adapter: RvUsersAdapter
     private lateinit var mainViewModel: MainViewModel
+
+    companion object {
+        const val STATE_OUT = "state_out"
+    }
+
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -32,33 +39,21 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
-        binding.rvUsers.setHasFixedSize(true)
-        setDataRv()
-        return view
-    }
+        mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
+        if (savedInstanceState != null) {
+            state = savedInstanceState.getBoolean(STATE_OUT)
+        }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        if (!state) {
+            Log.d("SAVEDINSTANCE2", savedInstanceState.toString())
+            setDataRv()
+        }
         adapter = RvUsersAdapter()
         adapter.notifyDataSetChanged()
 
         binding.rvUsers.layoutManager = LinearLayoutManager(activity)
         binding.rvUsers.adapter = adapter
-
-        mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
-
-        mainViewModel.getListUsers().observe(viewLifecycleOwner, { userItems ->
-            if (userItems != null) {
-                adapter.setData(userItems)
-                showLoading(false)
-            }
-        })
-
-        adapter.setOnItemClickCallback(object : RvUsersAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Users) {
-                showSelectedUser(data)
-            }
-        })
+        binding.rvUsers.setHasFixedSize(true)
 
         //Callback untuk SearchView
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -76,6 +71,38 @@ class HomeFragment : Fragment() {
             }
         })
 
+        binding.tvErrorMessage.setOnClickListener {
+            setDataRv()
+        }
+
+        mainViewModel.getListUsers().observe(viewLifecycleOwner, { userItems ->
+            if (userItems != null) {
+
+                adapter.setData(userItems)
+                showLoading(false)
+                binding.tvErrorMessage.visibility = View.GONE
+            } else {
+                val errorMessage: String? = mainViewModel.getMessageError()
+                if (errorMessage != null) {
+                    Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show()
+                }
+                binding.tvErrorMessage.visibility = View.VISIBLE
+                showLoading(false)
+            }
+        })
+
+        adapter.setOnItemClickCallback(object : RvUsersAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Users) {
+                showSelectedUser(data)
+            }
+        })
+
+        return view
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(STATE_OUT, true)
     }
 
     private fun showLoading(state: Boolean) {
@@ -88,6 +115,7 @@ class HomeFragment : Fragment() {
 
     //Fungsi Menampilkan Data ke RV
     private fun setDataRv() {
+        binding.tvErrorMessage.visibility = View.GONE
         showLoading(true)
         mainViewModel.setListUsers(queryState)
     }

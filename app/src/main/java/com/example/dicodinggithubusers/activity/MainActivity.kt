@@ -10,21 +10,35 @@ import com.example.dicodinggithubusers.fragment.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        const val HOME_FRAGMENT_TAG = "home_fragment_tag"
+    }
+
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val homeFragment = HomeFragment()
+        var homeFragment: Fragment? = null
         val profileFragment = ProfileFragment()
 
-        setCurrentFragment(homeFragment)
+        if (savedInstanceState != null) {
+            supportFragmentManager.findFragmentByTag(HOME_FRAGMENT_TAG)
+        } else if (homeFragment == null) {
+            homeFragment = HomeFragment()
+            setCurrentFragment(homeFragment)
+        }
 
         //Pilih Fragment Berdasarkan Menu yang Dipilih
         binding.bottomNavigationBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.home -> setCurrentFragment(homeFragment)
+                R.id.home -> if (savedInstanceState != null) {
+                    supportFragmentManager.findFragmentByTag(HOME_FRAGMENT_TAG)
+                } else if (homeFragment == null) {
+                    homeFragment = HomeFragment()
+                    setCurrentFragment(homeFragment as HomeFragment)
+                }
                 R.id.profile -> setCurrentFragment(profileFragment)
             }
             true
@@ -33,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setCurrentFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.display_fragment, fragment)
+            replace(R.id.display_fragment, fragment, HOME_FRAGMENT_TAG)
             commit()
         }
     }
