@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.dicodinggithubusers.R
 import com.example.dicodinggithubusers.activity.DetailActivity
 import com.example.dicodinggithubusers.adapter.RvUsersAdapter
 import com.example.dicodinggithubusers.databinding.FragmentFollowersBinding
@@ -72,8 +71,8 @@ class FollowersFragment : Fragment() {
         showLoading(true)
 
         Log.d("GetUserURL", query.toString())
+        client.addHeader("Authorization", "token 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")
         client.addHeader("User-Agent", "request")
-        client.addHeader("Authorization", getString(R.string.token_api))
         client.get(query, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
                     statusCode: Int,
@@ -125,7 +124,7 @@ class FollowersFragment : Fragment() {
     private fun getUserDetailData(url: String) {
         Log.d("URL: ", url)
         client.addHeader("User-Agent", "request")
-        client.addHeader("Authorization", getString(R.string.token_api))
+        client.addHeader("Authorization", "token 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")
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
                     statusCode: Int,
@@ -184,7 +183,7 @@ class FollowersFragment : Fragment() {
     //Fungsi Menampilkan Data ke RV
     private fun showRecyclerData() {
         binding.rvFollowers.layoutManager = LinearLayoutManager(activity)
-        val rvUsersAdapter = RvUsersAdapter(list)
+        val rvUsersAdapter = RvUsersAdapter()
         binding.rvFollowers.adapter = rvUsersAdapter
 
         rvUsersAdapter.setOnItemClickCallback(object : RvUsersAdapter.OnItemClickCallback {

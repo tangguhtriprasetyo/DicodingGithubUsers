@@ -32,9 +32,6 @@
     <string name="tv_location">User Location</string>
     <string name="tv_company">Company</string>
     <string name="ic_apps">Ic Apps</string>
-    <string name="token_api">
-        <xliff:g id="token_api">token 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</xliff:g>
-    </string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="content_tab_text">This is Tab %1$d</string>
     <string name="tabFollowers">Followers \n%1$s</string>

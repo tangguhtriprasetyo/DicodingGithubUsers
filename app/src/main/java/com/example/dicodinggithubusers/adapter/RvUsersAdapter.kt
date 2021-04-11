@@ -13,15 +13,16 @@ import com.example.dicodinggithubusers.model.Users
 import java.util.*
 import kotlin.collections.ArrayList
 
-class RvUsersAdapter(private val listUsers: ArrayList<Users>) :
+class RvUsersAdapter :
         RecyclerView.Adapter<RvUsersAdapter.ListViewHolder>(), Filterable {
     private lateinit var onItemClickCallback: OnItemClickCallback
+    private var mData = ArrayList<Users>()
 
-    //List untuk Search
-    var filterList = ArrayList<Users>()
 
-    init {
-        filterList = listUsers
+    fun setData(items: ArrayList<Users>) {
+        mData.clear()
+        mData.addAll(items)
+        notifyDataSetChanged()
     }
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
@@ -47,12 +48,12 @@ class RvUsersAdapter(private val listUsers: ArrayList<Users>) :
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        holder.bind(filterList[position])
-        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(filterList[holder.adapterPosition]) }
+        holder.bind(mData[position])
+        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(mData[holder.adapterPosition]) }
     }
 
     override fun getItemCount(): Int {
-        return filterList.size
+        return mData.size
     }
 
     interface OnItemClickCallback {
@@ -64,11 +65,11 @@ class RvUsersAdapter(private val listUsers: ArrayList<Users>) :
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
-                filterList = if (charSearch.isEmpty()) {
-                    listUsers
+                mData = if (charSearch.isEmpty()) {
+                    mData
                 } else {
                     val resultList = ArrayList<Users>()
-                    for (row in listUsers) {
+                    for (row in mData) {
                         if (row.name?.toLowerCase(Locale.ROOT)
                                         ?.contains(charSearch.toLowerCase(Locale.ROOT)) == true
                         ) {
@@ -78,13 +79,13 @@ class RvUsersAdapter(private val listUsers: ArrayList<Users>) :
                     resultList
                 }
                 val filterResults = FilterResults()
-                filterResults.values = filterList
+                filterResults.values = mData
                 return filterResults
             }
 
             @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filterList = results?.values as ArrayList<Users>
+                mData = results?.values as ArrayList<Users>
                 notifyDataSetChanged()
             }
 
