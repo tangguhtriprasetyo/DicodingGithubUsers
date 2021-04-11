@@ -2,35 +2,31 @@ package com.example.dicodinggithubusers.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dicodinggithubusers.activity.DetailActivity
 import com.example.dicodinggithubusers.adapter.RvUsersAdapter
 import com.example.dicodinggithubusers.databinding.FragmentFollowersBinding
 import com.example.dicodinggithubusers.model.Users
-import com.loopj.android.http.AsyncHttpClient
-import com.loopj.android.http.AsyncHttpResponseHandler
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import cz.msebera.android.httpclient.Header
+import com.example.dicodinggithubusers.viewmodel.MainViewModel
 
 class FollowersFragment : Fragment() {
 
     private var _binding: FragmentFollowersBinding? = null
     private val binding get() = _binding!!
-    private var list: ArrayList<Users> = arrayListOf()
+    private var state: Boolean = false
 
-    private val client = AsyncHttpClient()
+    private lateinit var adapter: RvUsersAdapter
+    private lateinit var mainViewModel: MainViewModel
 
     companion object {
         private const val ARG_SECTION_NUMBER = "section_number"
+        const val STATE_OUT = "state_out"
 
         @JvmStatic
         fun newInstance(index: Int) =
@@ -48,149 +44,73 @@ class FollowersFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentFollowersBinding.inflate(inflater, container, false)
         val view = binding.root
-        binding.rvFollowers.setHasFixedSize(true)
-        return view
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
+
+        adapter = RvUsersAdapter()
+        adapter.notifyDataSetChanged()
+
+        binding.rvFollowers.layoutManager = LinearLayoutManager(activity)
+        binding.rvFollowers.adapter = adapter
+        binding.rvFollowers.setHasFixedSize(true)
 
         val dataUser = activity?.intent?.getParcelableExtra<Users>(DetailActivity.EXTRA_USER) as Users
         val userName = dataUser.username
         val urlFollowers = "https://api.github.com/users/$userName/followers"
         val urlFollowing = "https://api.github.com/users/$userName/following"
 
-        when (arguments?.getInt(ARG_SECTION_NUMBER, 0)) {
-            1 -> getUserListData(urlFollowers)
-            2 -> getUserListData(urlFollowing)
+        if (savedInstanceState != null) {
+            state = savedInstanceState.getBoolean(STATE_OUT)
         }
 
-    }
-
-    private fun getUserListData(query: String?) {
-        showLoading(true)
-
-        Log.d("GetUserURL", query.toString())
-        client.addHeader("Authorization", "token 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")
-        client.addHeader("User-Agent", "request")
-        client.get(query, object : AsyncHttpResponseHandler() {
-            override fun onSuccess(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    responseBody: ByteArray?
-            ) {
-                showLoading(false)
-
-                val result = String(responseBody!!)
-                Log.d("onSuccessListUser: ", result)
-
-                try {
-                    val moshi = Moshi.Builder()
-                            .addLast(KotlinJsonAdapterFactory())
-                            .build()
-
-                    val listType =
-                            Types.newParameterizedType(List::class.java, Users::class.java)
-                    val jsonAdapter: JsonAdapter<List<Users>> = moshi.adapter(listType)
-                    val response = jsonAdapter.fromJson(result)
-                    response?.let {
-                        for (i in response.indices) {
-                            val userData = response[i]
-                            val urlUsers = userData.url
-                            getUserDetailData(urlUsers.toString())
-
-                        }
-                    }
-
-                } catch (e: Exception) {
-                    Toast.makeText(activity, e.message, Toast.LENGTH_LONG).show()
-                    e.printStackTrace()
-                }
+        when (arguments?.getInt(ARG_SECTION_NUMBER, 0)) {
+            1 -> if (!state) {
+                setDataRv(urlFollowers)
             }
-
-            override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    responseBody: ByteArray?,
-                    error: Throwable?
-            ) {
-                Log.d("onFailureGetUser", error?.message.toString())
-                showLoading(false)
-                Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
+            2 -> if (!state) {
+                setDataRv(urlFollowing)
             }
-        })
-    }
+        }
 
-    private fun getUserDetailData(url: String) {
-        Log.d("URL: ", url)
-        client.addHeader("User-Agent", "request")
-        client.addHeader("Authorization", "token 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")
-        client.get(url, object : AsyncHttpResponseHandler() {
-            override fun onSuccess(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    responseBody: ByteArray?
-            ) {
-                showLoading(false)
-
-                val result = String(responseBody!!)
-                Log.d("onSuccessDetailUser: ", result)
-
-                try {
-                    val moshi = Moshi.Builder()
-                            .addLast(KotlinJsonAdapterFactory())
-                            .build()
-
-                    val jsonAdapter = moshi.adapter(Users::class.java)
-                    val response = jsonAdapter.fromJson(result)
-
-                    response?.let {
-                        val users = Users()
-                        users.username = it.username
-                        users.name = it.name
-                        users.repository = it.repository
-                        users.company = it.company
-                        users.follower = it.follower
-                        users.following = it.following
-                        users.avatar = it.avatar
-                        users.location = it.location
-                        list.add(users)
-                        Log.d("TOTAL LIST", list.size.toString())
-                    }
-                    binding.rvFollowers.apply {
-                        showRecyclerData()
-                    }
-
-                } catch (e: Exception) {
-                    Toast.makeText(activity, e.message, Toast.LENGTH_LONG).show()
-                    e.printStackTrace()
-                }
-            }
-
-            override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    responseBody: ByteArray?,
-                    error: Throwable?
-            ) {
-                Log.d("onFailureGetDetail", error?.message.toString())
-                showLoading(false)
-                Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
-            }
-        })
-    }
-
-    //Fungsi Menampilkan Data ke RV
-    private fun showRecyclerData() {
-        binding.rvFollowers.layoutManager = LinearLayoutManager(activity)
-        val rvUsersAdapter = RvUsersAdapter()
-        binding.rvFollowers.adapter = rvUsersAdapter
-
-        rvUsersAdapter.setOnItemClickCallback(object : RvUsersAdapter.OnItemClickCallback {
+        adapter.setOnItemClickCallback(object : RvUsersAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Users) {
                 showSelectedUser(data)
             }
         })
+
+        binding.tvErrorMessage.setOnClickListener {
+            when (arguments?.getInt(ARG_SECTION_NUMBER, 0)) {
+                1 -> if (!state) {
+                    setDataRv(urlFollowers)
+                }
+                2 -> if (!state) {
+                    setDataRv(urlFollowing)
+                }
+            }
+        }
+
+        mainViewModel.getListUsers().observe(viewLifecycleOwner, { userItems ->
+            if (userItems != null) {
+                adapter.setData(userItems)
+                showLoading(false)
+                binding.tvErrorMessage.visibility = View.GONE
+            } else {
+                val errorMessage: String? = mainViewModel.getMessageError()
+                if (errorMessage != null) {
+                    Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show()
+                }
+                binding.tvErrorMessage.visibility = View.VISIBLE
+                showLoading(false)
+            }
+        })
+
+        return view
+    }
+
+    private fun setDataRv(url: String) {
+        binding.tvErrorMessage.visibility = View.GONE
+        showLoading(true)
+        mainViewModel.setListUsers(url, true)
     }
 
     private fun showSelectedUser(data: Users) {
@@ -199,7 +119,6 @@ class FollowersFragment : Fragment() {
         val intentDetail = Intent(activity, DetailActivity::class.java)
         intentDetail.putExtra(DetailActivity.EXTRA_USER, data)
         startActivity(intentDetail)
-
     }
 
 
@@ -210,4 +129,10 @@ class FollowersFragment : Fragment() {
             binding.progressBar.visibility = View.GONE
         }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(HomeFragment.STATE_OUT, true)
+    }
+
 }

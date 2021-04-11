@@ -20,9 +20,9 @@ class MainViewModel : ViewModel() {
     val listItems = ArrayList<Users>()
     var errorMessage: String? = null
 
-    fun setListUsers(query: String?) {
+    fun setListUsers(query: String?, dataList: Boolean) {
         listItems.clear()
-        getData(query)
+        getData(query, dataList)
     }
 
     fun getListUsers(): LiveData<ArrayList<Users>> {
@@ -33,17 +33,13 @@ class MainViewModel : ViewModel() {
         return errorMessage
     }
 
-    private fun getData(query: String?) {
+    private fun getData(query: String?, dataList: Boolean) {
 
         val client = AsyncHttpClient()
-        val url: String = if (query != null) {
-            "https://api.github.com/search/users?q=$query"
-        } else {
-            "https://api.github.com/users"
-        }
+        val url: String = query ?: "https://api.github.com/users"
         Log.d("URL Endpoint: ", url)
 
-        client.addHeader("Authorization", "token ghp_FGkXehJz9BBDajwSmPZhKIFdN5ay7k1yluP")
+        client.addHeader("Authorization", "token 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")
         client.addHeader("User-Agent", "request")
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
@@ -56,30 +52,39 @@ class MainViewModel : ViewModel() {
                 Log.d("onSuccessListUser: ", result)
 
                 try {
-                    val moshi = Moshi.Builder()
-                            .addLast(KotlinJsonAdapterFactory())
-                            .build()
-
-                    if (query != null) {
-                        val jsonAdapter = moshi.adapter(SearchResponse::class.java)
-                        val response = jsonAdapter.fromJson(result)
-                        response?.let {
-                            it.items.indices.forEach { i ->
-                                val userData = it.items[i]
-                                val urlUsers = userData.url
-                                getUserDetailData(urlUsers.toString())
-                            }
-                        }
+                    if (result == "{\"total_count\":0,\"incomplete_results\":false,\"items\":[]}") {
+                        errorMessage = "Data Tidak Ditemukan"
+                        listUsers.postValue(null)
                     } else {
-                        val listType =
-                                Types.newParameterizedType(List::class.java, Users::class.java)
-                        val jsonAdapter: JsonAdapter<List<Users>> = moshi.adapter(listType)
-                        val response = jsonAdapter.fromJson(result)
-                        response?.let {
-                            response.indices.forEach { i ->
-                                val userData = response[i]
-                                val urlUsers = userData.url
-                                getUserDetailData(urlUsers.toString())
+
+                        val moshi = Moshi.Builder()
+                                .addLast(KotlinJsonAdapterFactory())
+                                .build()
+
+                        if (query != null && !dataList) {
+                            val jsonAdapter = moshi.adapter(SearchResponse::class.java)
+                            val response = jsonAdapter.fromJson(result)
+                            response?.let {
+                                it.items.indices.forEach { i ->
+                                    val userData = it.items[i]
+                                    val urlUsers = userData.url
+                                    getUserDetailData(urlUsers.toString())
+                                }
+                            }
+                        } else {
+
+                            Log.d("tes: ", result)
+                            val listType =
+                                    Types.newParameterizedType(List::class.java, Users::class.java)
+                            val jsonAdapter: JsonAdapter<List<Users>> = moshi.adapter(listType)
+                            val response = jsonAdapter.fromJson(result)
+                            Log.d("ResponseSearch: ", response?.size.toString())
+                            response?.let {
+                                response.indices.forEach { i ->
+                                    val userData = response[i]
+                                    val urlUsers = userData.url
+                                    getUserDetailData(urlUsers.toString())
+                                }
                             }
                         }
                     }
@@ -106,7 +111,7 @@ class MainViewModel : ViewModel() {
 
     private fun getUserDetailData(urlUsers: String) {
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token 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")
+        client.addHeader("Authorization", "token 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")
         client.addHeader("User-Agent", "request")
         client.get(urlUsers, object : AsyncHttpResponseHandler() {
             override fun onSuccess(

@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val HOME_FRAGMENT_TAG = "home_fragment_tag"
+        const val PROFILE_FRAGMENT_TAG = "profile_fragment_tag"
     }
 
     private lateinit var binding: ActivityMainBinding
@@ -20,34 +21,34 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var homeFragment: Fragment? = null
+        val homeFragment = HomeFragment()
         val profileFragment = ProfileFragment()
 
         if (savedInstanceState != null) {
-            supportFragmentManager.findFragmentByTag(HOME_FRAGMENT_TAG)
-        } else if (homeFragment == null) {
-            homeFragment = HomeFragment()
-            setCurrentFragment(homeFragment)
+            supportFragmentManager.findFragmentByTag(HOME_FRAGMENT_TAG)?.let { setCurrentFragment(it, HOME_FRAGMENT_TAG) }
+        } else {
+
+            setCurrentFragment(homeFragment, HOME_FRAGMENT_TAG)
         }
 
         //Pilih Fragment Berdasarkan Menu yang Dipilih
         binding.bottomNavigationBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.home -> if (savedInstanceState != null) {
-                    supportFragmentManager.findFragmentByTag(HOME_FRAGMENT_TAG)
-                } else if (homeFragment == null) {
-                    homeFragment = HomeFragment()
-                    setCurrentFragment(homeFragment as HomeFragment)
+                R.id.home -> {
+                    setCurrentFragment(homeFragment, HOME_FRAGMENT_TAG)
                 }
-                R.id.profile -> setCurrentFragment(profileFragment)
+
+                R.id.profile -> {
+                    setCurrentFragment(profileFragment, PROFILE_FRAGMENT_TAG)
+                }
             }
             true
         }
     }
 
-    private fun setCurrentFragment(fragment: Fragment) {
+    private fun setCurrentFragment(fragment: Fragment, fragmentTag: String) {
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.display_fragment, fragment, HOME_FRAGMENT_TAG)
+            replace(R.id.display_fragment, fragment, fragmentTag)
             commit()
         }
     }

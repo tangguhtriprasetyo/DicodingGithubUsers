@@ -21,8 +21,9 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private var queryState: String? = null
+    private var urlUser: String? = null
     private var state: Boolean = false
+    private var dataList: Boolean = true
 
     private lateinit var adapter: RvUsersAdapter
     private lateinit var mainViewModel: MainViewModel
@@ -39,7 +40,9 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
+
         mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
+
         if (savedInstanceState != null) {
             state = savedInstanceState.getBoolean(STATE_OUT)
         }
@@ -55,30 +58,11 @@ class HomeFragment : Fragment() {
         binding.rvUsers.adapter = adapter
         binding.rvUsers.setHasFixedSize(true)
 
-        //Callback untuk SearchView
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query != null) {
-                    queryState = query
-                    setDataRv()
-                }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                adapter.filter.filter(newText)
-                return false
-            }
-        })
-
-        binding.tvErrorMessage.setOnClickListener {
-            setDataRv()
-        }
-
         mainViewModel.getListUsers().observe(viewLifecycleOwner, { userItems ->
             if (userItems != null) {
 
                 adapter.setData(userItems)
+                binding.rvUsers.visibility = View.VISIBLE
                 showLoading(false)
                 binding.tvErrorMessage.visibility = View.GONE
             } else {
@@ -87,6 +71,7 @@ class HomeFragment : Fragment() {
                     Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show()
                 }
                 binding.tvErrorMessage.visibility = View.VISIBLE
+                binding.rvUsers.visibility = View.INVISIBLE
                 showLoading(false)
             }
         })
@@ -97,12 +82,28 @@ class HomeFragment : Fragment() {
             }
         })
 
-        return view
-    }
+        //Callback untuk SearchView
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) {
+                    urlUser = "https://api.github.com/search/users?q=$query"
+                    dataList = false
+                    setDataRv()
+                }
+                return true
+            }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean(STATE_OUT, true)
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                return false
+            }
+        })
+
+        binding.tvErrorMessage.setOnClickListener {
+            setDataRv()
+        }
+
+        return view
     }
 
     private fun showLoading(state: Boolean) {
@@ -117,7 +118,7 @@ class HomeFragment : Fragment() {
     private fun setDataRv() {
         binding.tvErrorMessage.visibility = View.GONE
         showLoading(true)
-        mainViewModel.setListUsers(queryState)
+        mainViewModel.setListUsers(urlUser, dataList)
     }
 
     //Fungsi Pilih User dan Pindah Activity dengan Parcelable
@@ -127,7 +128,11 @@ class HomeFragment : Fragment() {
         val intentDetail = Intent(activity, DetailActivity::class.java)
         intentDetail.putExtra(DetailActivity.EXTRA_USER, data)
         startActivity(intentDetail)
+    }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(STATE_OUT, true)
     }
 
 }
