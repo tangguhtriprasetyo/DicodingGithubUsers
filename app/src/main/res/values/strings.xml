@@ -33,7 +33,6 @@
     <string name="tv_location">Lokasi User</string>
     <string name="tv_company">Company</string>
     <string name="ic_apps">Ic Apps</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="content_tab_text">This is Tab %1$d</string>
     <string name="tabFollowers">Followers \n%1$s</string>
@@ -41,4 +40,13 @@
     <string name="setting_language">Setting Bahasa</string>
     <string name="search_hint">Cari User…</string>
     <string name="tv_try_again">Coba Lagi</string>
+    <string name="tv_notification">Notifikasi</string>
+    <string name="title_reminder">Pengingat pada pukul 09.00 AM</string>
+    <string name="title_language">Bahasa</string>
+    <string name="select_language">Pilih Bahasa</string>
+    <string name="selected_language">Indonesia</string>
+    <string name="key_language_setting">key_language_setting</string>
+    <string name="key_notification_setting">key_notification_setting</string>
+    <string name="tv_title_setting">Pengaturan</string>
+    <string name="title_activity_settings">SettingActivity</string>
 </resources>

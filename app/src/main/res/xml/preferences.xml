@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/tv_notification">
+
+        <SwitchPreferenceCompat
+            app:icon="@drawable/ic_baseline_notifications_24"
+            app:key="@string/key_notification_setting"
+            app:title="@string/title_reminder" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/title_language">
+
+        <Preference
+            app:icon="@drawable/ic_baseline_language_24"
+            app:key="@string/key_language_setting"
+            app:summary="@string/selected_language"
+            app:title="@string/select_language" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

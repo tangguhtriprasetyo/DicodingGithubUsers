@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.dicodinggithubusers.BuildConfig
 import com.example.dicodinggithubusers.model.SearchResponse
 import com.example.dicodinggithubusers.model.Users
 import com.loopj.android.http.AsyncHttpClient
@@ -16,7 +17,7 @@ import cz.msebera.android.httpclient.Header
 
 class MainViewModel : ViewModel() {
 
-    val listUsers = MutableLiveData<ArrayList<Users>>()
+    val listUsers = MutableLiveData<ArrayList<Users>?>()
     val listItems = ArrayList<Users>()
     var errorMessage: String? = null
 
@@ -25,7 +26,7 @@ class MainViewModel : ViewModel() {
         getData(query, dataList)
     }
 
-    fun getListUsers(): LiveData<ArrayList<Users>> {
+    fun getListUsers(): LiveData<ArrayList<Users>?> {
         return listUsers
     }
 
@@ -39,7 +40,7 @@ class MainViewModel : ViewModel() {
         val url: String = query ?: "https://api.github.com/users"
         Log.d("URL Endpoint: ", url)
 
-        client.addHeader("Authorization", "token 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")
+        client.addHeader("Authorization", BuildConfig.GITHUB_TOKEN)
         client.addHeader("User-Agent", "request")
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
@@ -111,7 +112,7 @@ class MainViewModel : ViewModel() {
 
     private fun getUserDetailData(urlUsers: String) {
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token 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")
+        client.addHeader("Authorization", BuildConfig.GITHUB_TOKEN)
         client.addHeader("User-Agent", "request")
         client.get(urlUsers, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
